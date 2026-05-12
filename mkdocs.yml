@@ -1,6 +1,6 @@
 # Project information
 site_name: "Flow-Project"
-site_url: https://flow-project.net/docs/latest/
+site_url: https://docs.flow-project.net/
 site_author: "Flow-Project Team"
 site_description: "Documentation for the Flow-Project, an open-source environment for handwritten text recognition (HTR) and related tasks."
 repo_name: The-Flow-Project/flow-docs

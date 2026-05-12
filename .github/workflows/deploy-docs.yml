@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: 3.12
 
@@ -37,3 +37,12 @@ jobs:
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
           echo $latest_tag
           mike deploy --push --update-aliases $latest_tag latest
+
+      - name: Add CNAME to gh-pages root
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          echo "docs.flow-project.net" > CNAME
+          git add CNAME
+          git diff --cached --quiet || git commit -m "Persist CNAME for custom domain"
+          git push origin gh-pages
