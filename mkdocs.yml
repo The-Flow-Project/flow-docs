@@ -1,0 +1,156 @@
+# Project information
+site_name: "Flow-Project"
+site_url: https://flow-project.net/docs/latest/
+site_author: "Flow-Project Team"
+site_description: "Documentation for the Flow-Project, an open-source environment for handwritten text recognition (HTR) and related tasks."
+repo_name: The-Flow-Project/flow-docs
+repo_url: https://github.com/The-Flow-Project/flow-docs
+edit_uri: https://github.com/The-Flow-Project/flow-docs/tree/main/docs
+
+use_directory_urls: false
+extra_css:
+  - stylesheets/extra.css
+
+# Page tree
+nav:
+  - Flow-Project Docs: index.md
+  # - Getting started :
+  #  - Installation: getting_started/installation.md
+  #  - Quickstart: getting_started/quick_start.md
+
+  # - Reference:
+  #  - Links to api references of the different packages
+
+  # - Help:
+  #  - FAQ: help/faq.md
+  #  - Contribution: help/contributing.md
+  
+
+# Configuration
+theme:
+  name: material
+  custom_dir: docs/overrides
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - navigation.indexes
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+    - content.code.annotate
+    - announce.dismiss
+    - toc.follow
+
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: https://github.com/The-Flow-Project/flow-docs/main/docs/assets/favicon.ico
+  logo: https://github.com/The-Flow-Project/flow-docs/main/docs/assets/flow.png
+  icon:
+    logo: logo
+    repo: fontawesome/brands/github
+
+plugins:
+  - tags
+  - search
+  - mkdocs-jupyter:
+      kernel_name: python3
+      include_source: True
+  - table-reader:
+      base_path: "docs_dir"
+      data_path: "."
+      search_page_directory: True
+      allow_missing_files: False
+      select_readers:
+        - read_csv
+        - read_json
+      enabled: True
+  - git-revision-date-localized
+  - swagger-ui-tag
+  - termynal:
+      prompt_literal_start:
+        - "$"
+        - ">"
+
+extra:
+  generator: false
+  version:
+    provider: mike
+  social:
+    - icon: boostrap/hf-logo-pirate
+      link: https://huggingface.co/the-flow-project
+      name: Hugging Face
+    - icon: fontawesome/brands/github
+      link: https://github.com/the-flow-project
+      name: Github 
+  analytics:
+    provider: custom
+    property: matomo
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.snippets
+
