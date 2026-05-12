@@ -86,7 +86,6 @@ plugins:
         - read_json
       enabled: True
   - git-revision-date-localized
-  - swagger-ui-tag
   - termynal:
       prompt_literal_start:
         - "$"
