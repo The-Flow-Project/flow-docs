@@ -81,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#the-flow-project" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -335,6 +340,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow-Project Docs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="index.html" class="md-nav__link md-nav__link--active">
         
@@ -352,6 +377,69 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Flow?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-can-you-do-with-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What can you do with it?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-it-structured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How is it structured?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partners
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -430,6 +518,60 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is Flow?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-can-you-do-with-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What can you do with it?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-is-it-structured" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How is it structured?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Partners
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -451,27 +593,20 @@
   
 
 
-<h1 class="hide-title">Flow Project<h1>
-
-This is the documentation of the **Flow Project** — a collaborative research initiative (2023–2026) funded by the Swiss National Science Foundation (SNF) and the German Research Foundation (DFG).
-
-## What is Flow?
-
-Flow develops standardized, user-friendly digital workflows for historians and humanities researchers working with premodern historical sources. The goal is to make machine-learning capabilities accessible without requiring data science expertise — enabling corpus-level analysis of extended document collections.
-
-## What can you do with it?
-
-- **Handwritten Text Recognition (HTR)** — transcribe historical manuscripts automatically
-- **Natural Language Processing (NLP)** — extract structured information from historical texts
-- **Semi-automated analysis** — process large corpora across multiple historical languages and scripts
-
-## How is it structured?
-
-The Flow environment is modular. It consists of independent [packages](packages.md) (Python libraries) and [services](services.md) (FastAPI microservices) that cover the full HTR/ATR pipeline: preprocessing, segmentation, training, and inference.
-
-## Partners
-
-Developed jointly by the University of Bern (Digital Humanities), the University of Bielefeld (Digital History), and the Research Centre for Hanse and Baltic History, Lübeck.
+<h1 id="the-flow-project">The Flow Project<a class="headerlink" href="#the-flow-project" title="Permanent link">&para;</a></h1>
+<p>This is the documentation of the <strong>Flow Project</strong> — a collaborative research initiative (2023–2026) funded by the Swiss National Science Foundation (SNF) and the German Research Foundation (DFG).</p>
+<h2 id="what-is-flow">What is Flow?<a class="headerlink" href="#what-is-flow" title="Permanent link">&para;</a></h2>
+<p>Flow develops standardized, user-friendly digital workflows for historians and humanities researchers working with premodern historical sources. The goal is to make machine-learning capabilities accessible without requiring data science expertise — enabling corpus-level analysis of extended document collections.</p>
+<h2 id="what-can-you-do-with-it">What can you do with it?<a class="headerlink" href="#what-can-you-do-with-it" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Handwritten Text Recognition (HTR)</strong> — transcribe historical manuscripts automatically</li>
+<li><strong>Natural Language Processing (NLP)</strong> — extract structured information from historical texts</li>
+<li><strong>Semi-automated analysis</strong> — process large corpora across multiple historical languages and scripts</li>
+</ul>
+<h2 id="how-is-it-structured">How is it structured?<a class="headerlink" href="#how-is-it-structured" title="Permanent link">&para;</a></h2>
+<p>The Flow environment is modular. It consists of independent <a href="packages.html">packages</a> (Python libraries) and <a href="services.html">services</a> (FastAPI microservices) that cover the full HTR/ATR pipeline: preprocessing, segmentation, training, and inference.</p>
+<h2 id="partners">Partners<a class="headerlink" href="#partners" title="Permanent link">&para;</a></h2>
+<p>Developed jointly by the University of Bern (Digital Humanities), the University of Bielefeld (Digital History), and the Research Centre for Hanse and Baltic History, Lübeck.</p>
 
 
 
@@ -492,7 +627,7 @@ Developed jointly by the University of Bern (Digital Humanities), the University
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 09:42:37 UTC">May 13, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2026 11:34:25 UTC">May 13, 2026</span>
   </span>
 
     
