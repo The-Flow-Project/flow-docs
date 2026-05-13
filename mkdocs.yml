@@ -64,10 +64,9 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  favicon: https://github.com/The-Flow-Project/flow-docs/main/docs/assets/favicon.ico
-  logo: https://github.com/The-Flow-Project/flow-docs/main/docs/assets/flow.png
+  favicon: assets/favicon.ico
+  logo: assets/TheFlow_black.png
   icon:
-    logo: logo
     repo: fontawesome/brands/github
 
 plugins:
@@ -94,9 +93,6 @@ extra:
   version:
     provider: mike
   social:
-    - icon: boostrap/hf-logo-pirate
-      link: https://huggingface.co/the-flow-project
-      name: Hugging Face
     - icon: fontawesome/brands/github
       link: https://github.com/the-flow-project
       name: Github 
