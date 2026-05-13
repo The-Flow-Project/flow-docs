@@ -4,7 +4,7 @@ hide:
   - navigation
 ---
 
-<h1 class="hide-title">Flow Project<h1>
+# The Flow Project
 
 This is the documentation of the **Flow Project** — a collaborative research initiative (2023–2026) funded by the Swiss National Science Foundation (SNF) and the German Research Foundation (DFG).
 
