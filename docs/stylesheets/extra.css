@@ -1,7 +1,9 @@
-:root {
-    --md-primary-fg-color: rgb(0, 238, 0);    
-    --md-accent-fg-color: rgb(238, 222, 0);
-  }
+:root,
+[data-md-color-primary="indigo"],
+[data-md-color-primary="black"] {
+    --md-primary-fg-color: #3949ab;   /* vivid indigo, ~5.1:1 on white */
+    --md-accent-fg-color:  #e69e19;   /* deep orange, ~4.3:1 on white */
+}
 
 
 body[data-md-color-primary="black"] .svg_image  svg  {  

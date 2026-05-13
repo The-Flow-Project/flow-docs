@@ -65,7 +65,8 @@ theme:
     text: Roboto
     code: Roboto Mono
   favicon: assets/favicon.ico
-  logo: assets/TheFlow_black.png
+  logo: assets/TheFlow_white.png
+  # logo: assets/TheFlow_black.png
   icon:
     repo: fontawesome/brands/github
 
@@ -90,8 +91,6 @@ plugins:
 
 extra:
   generator: false
-  version:
-    provider: mike
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/the-flow-project

@@ -37,7 +37,7 @@ jobs:
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
           echo $latest_tag
           mike deploy --update-aliases $latest_tag latest
-          mike set-default $latest_tag
+          mike set-default latest
           git checkout gh-pages
           echo "docs.flow-project.net" > CNAME
           git add CNAME
