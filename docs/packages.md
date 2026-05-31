@@ -98,11 +98,12 @@ A Python package for performing TrOCR-based inference and evaluation for OCR/HTR
 
 ### Features
 
-- Run inference with TrOCR vision-encoder-decoder models
-- Process line-based OCR/HTR datasets from the Hugging Face Hub
-- Evaluate predictions with common text recognition metrics such as CER
-- Write inferred text back into PageXML files
-- Export inference results for downstream analysis, including Voyant-compatible output
+- **Hugging Face Integration** - Loads and processes line-based datasets from the Hugging Face Hub
+- **TrOCR Inference** - Runs OCR/HTR inference with TrOCR-based vision-language models
+- **Evaluation** - Evaluates predictions with Character Error Rate (CER)
+- **XML Output** - Writes inferred text back into raw XML files
+- **Voyant Export** - Exports inference results for downstream analysis, including Voyant-compatible output
+- **Status Tracking** - Tracks inference and evaluation status
 
 ## flow-training (WIP)
 
