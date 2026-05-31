@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://docs.flow-project.net/v0.0.5/index.html</loc>
+         <lastmod>2026-05-31</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flow-project.net/v0.0.5/packages.html</loc>
+         <lastmod>2026-05-31</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.flow-project.net/v0.0.5/services.html</loc>
+         <lastmod>2026-05-31</lastmod>
+    </url>
+</urlset>
