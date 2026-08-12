@@ -94,7 +94,16 @@ A Python package for segmenting XML files through automatic text structure recog
 [![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--trocr--inference-181717?logo=github)](https://github.com/The-Flow-Project/package-trocr-inference){ target="_blank" rel="noopener" }
 [![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/package-trocr-inference/){ target="_blank" rel="noopener" }  
 
-Package for performing inference and evaluation for OCR/HTR tasks with HuggingFace integration.
+A Python package for performing TrOCR-based inference and evaluation for OCR/HTR tasks with Hugging Face integration.
+
+### Features
+
+- **Hugging Face Integration** - Loads and processes line-based datasets from the Hugging Face Hub
+- **TrOCR Inference** - Runs OCR/HTR inference with TrOCR-based vision-language models
+- **Evaluation** - Evaluates predictions with Character Error Rate (CER)
+- **XML Output** - Writes inferred text back into raw XML files
+- **Voyant Export** - Exports inference results for downstream analysis, including Voyant-compatible output
+- **Status Tracking** - Tracks inference and evaluation status
 
 ## TrOCR training scripts (WIP)
 
