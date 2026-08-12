@@ -1,0 +1,1849 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the Flow-Project, an open-source environment for handwritten text recognition (HTR) and related tasks.">
+      
+      
+        <meta name="author" content="Flow-Project Team">
+      
+      
+        <link rel="canonical" href="https://docs.flow-project.net/v0.1.0/getting_started/installation.html">
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="../htr_workflow/n8n.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Installation - Flow-Project</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../termynal.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#installation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Flow-Project" class="md-header__button md-logo" aria-label="Flow-Project" data-md-component="logo">
+      
+  <img src="../assets/TheFlow_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Flow-Project
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/The-Flow-Project/flow-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    The-Flow-Project/flow-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Flow-Project
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="installation.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tutorials/preprocessing_zip_raw_xml.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../packages.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../help/faq.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Help
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Flow-Project" class="md-nav__button md-logo" aria-label="Flow-Project" data-md-component="logo">
+      
+  <img src="../assets/TheFlow_white.png" alt="logo">
+
+    </a>
+    Flow-Project
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/The-Flow-Project/flow-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    The-Flow-Project/flow-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flow-Project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="installation.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-environment-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this environment is
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need-to-install-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need to install it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-variant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a variant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-emails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification emails
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-dns-and-infrastructure-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall, DNS, and infrastructure notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Firewall, DNS, and infrastructure notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-setup-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic setup steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-preprocessing-and-inference-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the preprocessing and inference services
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../htr_workflow/n8n.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview Environment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/preprocessing_zip_raw_xml.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing a ZIP into a raw XML dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/preprocessing_hf_raw_xml.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing from a HuggingFace dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/preprocessing_line_based.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preprocessing a line-based dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/inference.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/evaluation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluating results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/write_raw_xml.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing results back into raw XML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Packages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../services.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Help
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Help
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/faq.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/contributing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-environment-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this environment is
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need-to-install-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need to install it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-a-variant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing a variant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notification-emails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notification emails
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall-dns-and-infrastructure-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall, DNS, and infrastructure notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Firewall, DNS, and infrastructure notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-setup-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic setup steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-preprocessing-and-inference-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the preprocessing and inference services
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
+<p>This page describes how to set up the <a href="https://docs.n8n.io/">n8n</a> environment that runs the Flow Project's
+handwritten text recognition (HTR) pipeline. It covers what you need before you start,
+the different ways you can run the environment, and the basic steps to get it going.</p>
+<h2 id="what-this-environment-is">What this environment is<a class="headerlink" href="#what-this-environment-is" title="Permanent link">&para;</a></h2>
+<p>The environment is a collection of Docker Compose files, ready-made n8n workflows, and
+small web forms. Together they let an administrator or a researcher run preprocessing,
+inference (recognition), and evaluation jobs without writing any code: a form is filled
+in, a workflow does the work in the background, and an email is sent when the job is
+done.</p>
+<p>The environment itself only handles the orchestration: receiving requests, calling the
+right service, watching the job, and reporting back. The actual preprocessing and
+inference work is done by two separate services that you run alongside it:</p>
+<ul>
+<li><strong>Preprocessing service</strong>: turns raw Page XML and image exports into datasets ready
+  for training or inference.</li>
+<li><strong>Inference / evaluation service</strong>: runs a trained model over a dataset and can
+  evaluate its output against ground truth.</li>
+</ul>
+<p>Both are published as their own repositories and are started with their own Docker
+Compose files, independent of the n8n environment described here.</p>
+<pre class="mermaid"><code>flowchart LR
+    User(["User"])
+    Forms["Web forms&lt;br/&gt;(this repository)"]
+    n8n["n8n&lt;br/&gt;(this repository)"]
+    Garage[("Garage&lt;br/&gt;temporary ZIP storage")]
+    HF[("HuggingFace Hub&lt;br/&gt;datasets &amp;amp; models")]
+    Email(["Notification email"])
+
+    subgraph Preprocess["preprocess-network"]
+        Prep["service-trocr-preprocess&lt;br/&gt;FastAPI + Celery + Redis"]
+    end
+
+    subgraph Inference["inference-network"]
+        Inf["service-trocr-inference&lt;br/&gt;FastAPI + Celery + Redis"]
+    end
+
+    User --&gt;|fills in| Forms
+    Forms --&gt;|webhook request| n8n
+    n8n &lt;--&gt;|uploaded ZIPs| Garage
+    n8n --&gt;|starts &amp;amp; polls jobs| Prep
+    n8n --&gt;|starts &amp;amp; polls jobs| Inf
+    Prep &lt;--&gt;|reads/writes datasets| HF
+    Inf &lt;--&gt;|reads/writes datasets &amp;amp; models| HF
+    n8n --&gt;|success/failure| Email
+    Email --&gt;|notifies| User</code></pre>
+<p>Everything in the top box (forms, n8n, Garage) comes from this repository and this
+installation guide. The two service boxes are separate repositories with their own
+compose files; see
+<a href="#running-the-preprocessing-and-inference-services">Running the preprocessing and inference services</a>
+below. Traefik and the mail relay aren't shown here since they're optional add-ons
+covered in their own sections.</p>
+<h2 id="what-you-need-to-install-it">What you need to install it<a class="headerlink" href="#what-you-need-to-install-it" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="https://docs.docker.com/compose/">Docker and Docker Compose</a></strong> on the machine that
+  will host the environment.</li>
+<li><strong>A way to send the workflow notification emails</strong> described below: every workflow
+  ends by emailing the user whether the job succeeded or failed, so pick one of the
+  three options before you start, since it decides what goes in your <code>.env</code> file.</li>
+<li>If you want the environment reachable under a real domain, <strong>a domain name with DNS
+  access</strong>. This is optional; see "Choosing a variant" below.</li>
+</ul>
+<p>A <strong>HuggingFace account and access token</strong> is not needed to install the environment
+itself. It only becomes relevant once someone actually submits a job through one of the
+forms, since datasets and models are stored and exchanged as
+<a href="https://huggingface.co/docs/hub/index">HuggingFace Hub</a> repositories. Each form asks
+for a HuggingFace token at submission time; nothing needs to be configured for it during
+setup.</p>
+<div class="admonition warning">
+<p class="admonition-title">HuggingFace tokens are not stored as n8n credentials</p>
+<p>The token a user types into a form is not saved anywhere as a reusable n8n
+credential. It travels through the webhook request as plain form data for that one
+job, which means it stays readable in that job's entry in n8n's
+<a href="https://docs.n8n.io/hosting/scaling/execution-data/">execution history</a> for as
+long as n8n keeps it. Anyone with access to the n8n editor can read it there, so
+treat execution history as sensitive, and prefer <a href="https://huggingface.co/docs/hub/security-tokens">HuggingFace access tokens</a>
+that are scoped to one repository and easy to revoke.</p>
+</div>
+<p>None of the preprocessing or inference work happens on your local machine by hand; it is
+always triggered through n8n and carried out by the separate services mentioned above.</p>
+<h2 id="choosing-a-variant">Choosing a variant<a class="headerlink" href="#choosing-a-variant" title="Permanent link">&para;</a></h2>
+<p>The same stack can be started in a few different ways, depending on your network and
+how public the environment should be.</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>When to use it</th>
+<th>Compose file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local / no domain</td>
+<td>Development, testing, or a network without a domain or open ports 80/443</td>
+<td><code>docker-compose.n8n.local.yml</code></td>
+</tr>
+<tr>
+<td>Domain-based</td>
+<td>A proper deployment reachable under <code>n8n.yourdomain.com</code> and similar subdomains, behind <a href="https://doc.traefik.io/traefik/">Traefik</a></td>
+<td><code>docker-compose.n8n.yml</code> + <code>docker-compose.traefik-proxy.yml</code></td>
+</tr>
+</tbody>
+</table>
+<p>Both variants run the same building blocks: n8n itself, a small S3-compatible storage
+service called <a href="https://garagehq.deuxfleurs.fr/documentation/quick-start/">Garage</a>, and
+the web forms. Garage is used only to temporarily hold
+uploaded ZIP files until the preprocessing service can fetch them; a weekly cleanup job
+removes anything older than seven days. It runs automatically as part of the compose
+setup and needs no external account, just the secrets you generate for <code>.env</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Start local first</p>
+<p>If you are trying the environment out for the first time, the local variant is the
+easiest path: no domain, no TLS certificates, and no waiting on DNS changes.</p>
+</div>
+<h2 id="notification-emails">Notification emails<a class="headerlink" href="#notification-emails" title="Permanent link">&para;</a></h2>
+<p>Every workflow finishes by sending an email to the user, reporting success or failure.
+There is no separate solution for other kinds of outgoing mail (such as n8n's own
+account invites or password resets). This setup only covers the workflow notification
+emails. You have three options for sending them:</p>
+<ul>
+<li><strong>Mailjet</strong>: create a <a href="https://www.mailjet.com/">Mailjet</a> account and verify your
+  domain there (they give you DNS records to add, so this still needs DNS access), then
+  add the Mailjet credential in n8n. This is the default: every workflow already has an
+  active Mailjet email node.</li>
+<li><strong>Gmail</strong>: reuse an existing Gmail account via n8n's
+  <a href="https://docs.n8n.io/integrations/builtin/credentials/send-email/gmail/">Gmail credential</a>
+  (OAuth login only). No DNS or domain access needed at all, at the cost of sending from a
+  <code>@gmail.com</code> address instead of your own domain. Requires swapping in a Gmail node in
+  place of the default Mailjet one.</li>
+<li><strong>Self-hosted mail relay</strong>: a small Postfix + OpenDKIM container
+  (<code>docker-compose.mailserver.local.yml</code> or <code>docker-compose.mailserver.yml</code>) that you run
+  as an add-on on top of either base variant. It needs DNS access to publish a DKIM TXT
+  record, and it delivers mail directly over outbound port 25, which most managed or
+  secured networks block, so it only works reliably on an open network. To use it,
+  disable the Mailjet email nodes in each workflow and enable the plain SMTP email nodes
+  instead (each workflow ships with both, the SMTP ones disabled by default).</li>
+</ul>
+<h2 id="firewall-dns-and-infrastructure-notes">Firewall, DNS, and infrastructure notes<a class="headerlink" href="#firewall-dns-and-infrastructure-notes" title="Permanent link">&para;</a></h2>
+<p>Quick planning pointers, not a full network setup guide.</p>
+<h3 id="firewall">Firewall<a class="headerlink" href="#firewall" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Domain variant: open inbound 80/443 for Traefik's <a href="https://letsencrypt.org/how-it-works/">Let's Encrypt</a>
+  challenge, unless you switch to the <a href="https://doc.traefik.io/traefik/https/acme/#dnschallenge">DNS-01 challenge</a>,
+  in which case no inbound port is needed for TLS at all.</li>
+<li>Local variant: only <code>5678</code> (n8n) and <code>80</code> (the forms) need to be reachable on your LAN;
+  nothing needs to be open to the internet.</li>
+<li>Self-hosted mail relay: outbound port <code>25</code> must be open. Many managed or cloud networks
+  block it, so check with your provider before picking this option.</li>
+<li>Everything else (Garage, Redis, the preprocessing/inference services) never needs a
+  firewall rule of its own; they only talk to each other over the internal Docker
+  networks and are never published to a host port.</li>
+</ul>
+<h3 id="dns">DNS<a class="headerlink" href="#dns" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The domain variant needs one record per subdomain in use (n8n, webhook, the form(s),
+  optionally mail); a wildcard <code>*.yourdomain.com</code> record is the easiest way to cover all
+  of them at once.</li>
+<li>Budget up to 48 hours for a DNS change to propagate before testing: a fresh or changed
+  record can look "broken" for reasons unrelated to your setup.</li>
+<li>Mailjet's domain verification adds its own DNS records (Mailjet tells you which); the
+  self-hosted mail relay instead needs a single DKIM TXT record.</li>
+<li>Consider SPF/DMARC records for your sending domain too. It's not something this
+  environment configures for you, but it lowers the chance of notification emails
+  landing in spam.</li>
+</ul>
+<h3 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A Linux host is the safest choice, since GPU support for the inference service depends
+  on the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html">NVIDIA Container Toolkit</a>,
+  which targets Linux.</li>
+<li>Give the host a static or reserved IP: both the domain variant's DNS records and the
+  local variant's <code>SERVER_IP</code> assume the address doesn't change.</li>
+<li>Run only one Traefik instance per host on the shared <code>traefik-public</code> network; a second
+  one competing for ports 80/443 will fail to start or quietly steal traffic.</li>
+<li>The n8n editor holds every stored credential used in this environment (storage, email,
+  the services' API keys) plus the execution history, which includes the HuggingFace
+  tokens submitted through the forms (see the warning above). If n8n is reachable under a
+  public domain, consider restricting access to it further (a VPN, an IP allowlist, or a
+  Traefik auth middleware) rather than leaving it open to anyone who finds the subdomain.</li>
+</ul>
+<h2 id="basic-setup-steps">Basic setup steps<a class="headerlink" href="#basic-setup-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Copy the matching <code>.env</code> template</strong>: <code>.env.example</code> for the domain variant,
+   <code>.env.local.example</code> for the local variant, to <code>.env</code>, and fill in the values:
+   your domain name or the server's LAN IP, the n8n <code>ENCRYPTION_KEY</code>
+   (<code>openssl rand -hex 32</code>), and the Garage storage secrets (also generated with
+   <code>openssl rand</code>, see the comments in the template file). If you chose the self-hosted
+   mail relay, also fill in its <code>DOMAIN_NAME</code>, <code>SUBDOMAIN_MAIL</code>, and <code>DKIM_SELECTOR</code>
+   values.</li>
+<li>
+<p><strong>Create the Docker networks</strong> the environment expects:</p>
+<ul>
+<li>Domain variant: <code>traefik-public</code> (Traefik ingress) and <code>preprocess-network</code>.</li>
+<li>Local variant: <code>inference-network</code> and <code>preprocess-network</code>.</li>
+</ul>
+<p>These two <code>*-network</code> networks are how n8n reaches the preprocessing and inference
+services, which run in their own, separate compose stacks; each of those stacks
+joins whichever network fits, and n8n then calls it by container name
+(<code>http://my-api:&lt;port&gt;</code>). An API on another machine on the LAN needs no such network,
+just its IP; an API running directly on the host itself needs
+<code>host.docker.internal</code> added to n8n's <code>extra_hosts</code>.</p>
+</li>
+<li>
+<p><strong>Start the compose file for your variant</strong>, adding the mail relay file on top if you
+   chose that option, for example:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.n8n.local.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.mailserver.local.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+</li>
+<li>
+<p><strong>Start the preprocessing and inference services</strong> from their own repositories, on
+   the matching <code>*-network</code>, so the workflows can reach them by container name.</p>
+</li>
+<li>
+<p><strong>Open the n8n web interface</strong>, add the required
+   <a href="https://docs.n8n.io/credentials/">credentials</a> (S3/Garage and your chosen email
+   option; HuggingFace tokens are entered per-request in the forms, not configured
+   here), and import the workflow JSON files from this repository's <code>workflows-*</code>
+   folders. Workflows are not started automatically. An administrator imports each one
+   through the n8n interface and activates it there.</p>
+<div class="admonition warning">
+<p class="admonition-title">Importing the workflows is not enough on its own</p>
+<p>Every Header Auth field on every webhook and every "POST/GET" node ships
+<strong>unassigned</strong> on purpose: none of the workflow files carry a working credential,
+since credentials are never included in an export. Each workflow stays broken
+until you create and link three Header Auth credentials in the n8n UI:</p>
+<ul>
+<li><strong>One shared "Webhook API Key"</strong>: select it on every <code>Webhook: Receive …</code>
+  node, across all five workflows. This is the <strong>only</strong> key you give to your
+  users; it's what they type into each form's "Webhook API key" field.</li>
+<li><strong>One "Preprocessing Service API Key"</strong>, matching the <code>API_KEY</code> you set in
+  <code>service-trocr-preprocess</code>'s <code>.env</code>; select it on the <code>POST:</code>/<code>GET:</code> nodes in
+  the two preprocessing workflows.</li>
+<li><strong>One "Inference Service API Key"</strong>, matching the <code>API_KEY</code> you set in
+  <code>service-trocr-inference</code>'s <code>.env</code>; select it on the <code>POST:</code>/<code>GET:</code> nodes in
+  the inference, evaluation, and write raw XML workflows.</li>
+</ul>
+<p>You need to know both services' <code>API_KEY</code> values yourself (see
+<a href="#running-the-preprocessing-and-inference-services">Running the preprocessing and inference services</a>
+below); never hand those out to end users, only the shared webhook key.</p>
+</div>
+</li>
+<li>
+<p><strong>Point the forms at the webhook.</strong> The form pages read their webhook address from a
+   small generated <code>config.js</code> file rather than having it hardcoded, so the same form
+   works unchanged across deployments:</p>
+<ul>
+<li>Domain variant images already default to <code>https://webhook.&lt;your-domain&gt;</code>.</li>
+<li>The local variant image writes it at container start from the <code>WEBHOOK_BASE_URL</code>
+  value in the compose file (typically <code>http://&lt;SERVER_IP&gt;:5678</code>).</li>
+</ul>
+</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Reproducible commands (steps 1-3)</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Local / no domain</label><label for="__tabbed_1_2">Domain-based</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>docker-templates
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># 2. shared networks, so n8n can reach sibling services by container name</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>inference-network
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>preprocess-network
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># 1. environment file</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>cp<span class="w"> </span>.env.local.example<span class="w"> </span>.env
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># now edit .env: set SERVER_IP, ENCRYPTION_KEY, and the GARAGE_* secrets</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># 3. start the stack</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.n8n.local.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># optional: self-hosted mail relay instead of Mailjet/Gmail</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.n8n.local.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.mailserver.local.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>docker-templates
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 2. shared networks, so n8n can reach sibling services by container name</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>traefik-public
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>preprocess-network
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># 1. environment file</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># now edit .env: set DOMAIN_NAME, the subdomains, SSL_EMAIL, ENCRYPTION_KEY,</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># and the GARAGE_* secrets</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># 3. start the reverse proxy, then the stack</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.traefik-proxy.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.n8n.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># optional: self-hosted mail relay instead of Mailjet/Gmail</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.n8n.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.mailserver.yml<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>Steps 4-6 (starting the sibling services, importing the workflows, and setting the
+webhook URL) are done once through the n8n web interface and the sibling services'
+own compose files, not from this repository.</p>
+</div>
+<h2 id="running-the-preprocessing-and-inference-services">Running the preprocessing and inference services<a class="headerlink" href="#running-the-preprocessing-and-inference-services" title="Permanent link">&para;</a></h2>
+<p>n8n only dispatches jobs. The two services below do the actual work, and each is its
+own repository with its own Docker Compose setup, run independently of the compose files
+in this repository:</p>
+<ul>
+<li><strong>Preprocessing service</strong>:
+  <a href="https://github.com/The-Flow-Project/service-trocr-preprocess">github.com/The-Flow-Project/service-trocr-preprocess</a></li>
+<li><strong>Inference / evaluation service</strong>:
+  <a href="https://github.com/The-Flow-Project/service-trocr-inference">github.com/The-Flow-Project/service-trocr-inference</a></li>
+</ul>
+<p>Both are built the same way: a <a href="https://fastapi.tiangolo.com/">FastAPI</a> app, a
+<a href="https://docs.celeryq.dev/en/stable/">Celery</a> background worker, and a
+<a href="https://redis.io/docs/latest/">Redis</a> instance for job status and queueing, all defined
+in that repository's own <code>docker-compose.yml</code>. To bring one up so this environment's
+workflows can reach it:</p>
+<ol>
+<li>Clone the repository and copy its <code>.env.example</code> to <code>.env</code>. Set <code>API_KEY</code> to a secret
+   of your own choosing; every request to the service must carry it, including the ones
+   n8n sends.</li>
+<li>
+<p>Make sure it joins the network the matching workflow expects: the same network you
+   already created in <a href="#basic-setup-steps">Basic setup steps</a> above:</p>
+<ul>
+<li>Preprocessing service → <code>preprocess-network</code></li>
+<li>Inference / evaluation service → <code>inference-network</code></li>
+</ul>
+</li>
+<li>
+<p>Keep the container name as shipped in that repository's compose file
+   (<code>service-trocr-preprocess</code> or <code>service-trocr-inference</code>). The imported n8n workflows
+   call the service at exactly that name on port 8000; renaming the container breaks the
+   connection unless you also edit the workflow's HTTP Request nodes.</p>
+</li>
+<li>
+<p>Start it. Both repositories support the same two modes:</p>
+<ul>
+<li><strong>Local / testing</strong>: a bare <code>docker compose up -d --build</code> also publishes the API
+  on <code>:8000</code>, handy for checking the connection by hand
+  (<code>curl http://localhost:8000/health</code>, no API key needed for this endpoint).</li>
+<li><strong>Behind Traefik</strong>: <code>docker compose -f docker-compose.yml -f docker-compose.traefik.yml up -d --build</code>
+  publishes no host port; the service is reachable only through Traefik and the
+  <code>APP_DOMAIN</code> set in its <code>.env</code>.</li>
+</ul>
+<p>Either way, Redis and the Celery worker start together with the API, with no separate
+step needed.</p>
+</li>
+<li>
+<p>Add the service's <code>API_KEY</code> as a
+   <a href="https://docs.n8n.io/integrations/builtin/credentials/httprequest/#header-auth">Header Auth credential</a>
+   in n8n (named "Preprocessing Service API Key" or "Inference Service API Key", as
+   described in step 5 of <a href="#basic-setup-steps">Basic setup steps</a>), and select it on that
+   workflow's <code>POST:</code>/<code>GET:</code> nodes. This is a <strong>different</strong> credential from the shared
+   webhook key end users type into the forms: this one authenticates n8n itself against
+   the backend service, and must match the <code>API_KEY</code> value you set in that service's
+   <code>.env</code> in step 1 above.</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">GPU support (inference service only)</p>
+<p>If the host has an NVIDIA GPU and the
+<a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html">NVIDIA Container Toolkit</a>
+installed, add <code>docker-compose.gpu.yml</code> on top of whichever command you used in step
+4, for example:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.traefik.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.gpu.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</span></code></pre></div>
+Without it, inference and training run on CPU, which works but is considerably
+slower.</p>
+</div>
+<p>Once this is done, the landing page lists a form for each available task:
+preprocessing, inference, writing raw XML, and evaluation. See the
+<a href="../tutorials/preprocessing_zip_raw_xml.html">Tutorials</a> section for a walkthrough of each
+one.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 12, 2026 09:41:03 UTC">August 12, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Flow-Project">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Flow-Project
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../htr_workflow/n8n.html" class="md-footer__link md-footer__link--next" aria-label="Next: Overview Environment">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview Environment
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/the-flow-project" target="_blank" rel="noopener" title="Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.indexes", "navigation.footer", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.code.annotate", "announce.dismiss", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../termynal.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,101 @@
+:root,
+[data-md-color-primary="indigo"],
+[data-md-color-primary="black"] {
+    --md-primary-fg-color: #3949ab;   /* vivid indigo, ~5.1:1 on white */
+    --md-accent-fg-color:  #e69e19;   /* deep orange, ~4.3:1 on white */
+}
+
+
+body[data-md-color-primary="black"] .svg_image  svg  {  
+  filter: invert(100%) hue-rotate(180deg);
+}
+
+body[data-md-color-primary="black"] .svg_image svg rect {
+  fill: transparent;
+}
+
+.svg_image {
+  text-align: center;
+  width: 100%;
+}
+
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
+img[alt=Flow-Logo] { 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+
+@keyframes heart {
+  0%, 40%, 80%, 100% {
+    transform: scale(1);
+  }
+  20%, 60% {
+    transform: scale(1.15);
+  }
+}
+.heart {
+  animation: heart 1000ms infinite;
+}
+
+
+.hide-title{
+  display: none;
+}
+
+.partner-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.partner-logos p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.partner-logos img {
+  height: 150px;
+  width: auto;
+  max-width: 320px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.partner-logos a {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.partner-logos img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 480px) {
+  .partner-logos,
+  .partner-logos p {
+    gap: 1rem;
+  }
+
+  .partner-logos img {
+    height: 48px;
+    padding: 0.4rem 0.6rem;
+  }
+}
