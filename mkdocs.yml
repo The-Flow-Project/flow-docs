@@ -13,20 +13,28 @@ extra_css:
 
 # Page tree
 nav:
-  - Flow-Project Docs: index.md
-  - Packages: packages.md
-  - Services: services.md
-  # - Getting started :
-  #  - Installation: getting_started/installation.md
-  #  - Quickstart: getting_started/quick_start.md
+  - Flow-Project: index.md
 
-  # - Reference:
-  #  - Links to api references of the different packages
+  - Getting Started:
+    - Installation: getting_started/installation.md
+    - Overview Environment: htr_workflow/n8n.md
 
-  # - Help:
-  #  - FAQ: help/faq.md
-  #  - Contribution: help/contributing.md
-  
+  - Tutorials:
+    - Preprocessing a ZIP into a raw XML dataset: tutorials/preprocessing_zip_raw_xml.md
+    - Preprocessing from a HuggingFace dataset: tutorials/preprocessing_hf_raw_xml.md
+    - Preprocessing a line-based dataset: tutorials/preprocessing_line_based.md
+    - Running inference: tutorials/inference.md
+    - Evaluating results: tutorials/evaluation.md
+    - Writing results back into raw XML: tutorials/write_raw_xml.md
+
+  - Reference:
+    - Packages: packages.md
+    - Services: services.md
+
+  - Help:
+    - FAQ: help/faq.md
+    - Contributing: help/contributing.md
+
 
 # Configuration
 theme:
@@ -73,18 +81,7 @@ theme:
     repo: fontawesome/brands/github
 
 plugins:
-  - tags
   - search
-  - mkdocs-jupyter:
-      kernel_name: python3
-      include_source: True
-  - table-reader:
-      data_path: "."
-      allow_missing_files: False
-      select_readers:
-        - read_csv
-        - read_json
-      enabled: True
   - git-revision-date-localized
   - termynal:
       prompt_literal_start:

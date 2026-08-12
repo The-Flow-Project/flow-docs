@@ -1,13 +1,12 @@
 #  Packages
 
-Since The Flow environment is modular, there are multiple packages for seperated tasks.  
-They are all in *beta*-status, but we are working hard on them.  
-Here is a list of those, and - if available - the links to the API references.
+Since The Flow environment is modular, there are multiple packages for seperated tasks. They are all in *beta*-status.  
+Here is a list of those, and (if available) the links to the API references.
 
 ## pagexml_hf
 
-[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpagexml--hf-181717?logo=github)](https://github.com/The-Flow-Project/pagexml-hf)
-[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/pagexml-hf/)  
+[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpagexml--hf-181717?logo=github)](https://github.com/The-Flow-Project/pagexml-hf){ target="_blank" rel="noopener" }
+[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/pagexml-hf/){ target="_blank" rel="noopener" }  
 A package for preprocessing PageXML and image exports (e.g. from Transkribus or eScriptorium). You can provide a ZIP export file or a Huggingface Hub repo containing the data to preprocess and upload to the Huggingface Hub.  
 Usable in your Python scripts or via CLI.
 
@@ -59,7 +58,8 @@ options:
 
 ## flow-preprocessing
 
-[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--preprocessing-181717?logo=github)](https://github.com/The-Flow-Project/package-preprocessing)
+[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--preprocessing-181717?logo=github)](https://github.com/The-Flow-Project/package-preprocessing){ target="_blank" rel="noopener" }
+[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/package-preprocessing/){ target="_blank" rel="noopener" }
 
 A Python package for preprocessing PageXML datasets for OCR/HTR tasks with HuggingFace integration.
 
@@ -76,27 +76,28 @@ A Python package for preprocessing PageXML datasets for OCR/HTR tasks with Huggi
 
 ## flow-segmenter
 
-[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--segmenter-181717?logo=github)](https://github.com/The-Flow-Project/package-segmenter)
-[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/package-segmenter/)  
+[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--segmenter-181717?logo=github)](https://github.com/The-Flow-Project/package-segmenter){ target="_blank" rel="noopener" }
+[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/package-segmenter/){ target="_blank" rel="noopener" }  
 
 A Python package for segmenting XML files through automatic text structure recognition using YOLO.
 
 ### Features
 
-- **Automatic Segmentation** - Automatically recognizes text structures
-- **Multiple Backends** - Supports YOLO and Kraken (for baseline and linemask detection)
-- **Baseline Processing** - Intelligent baseline extraction
-- **XML Utilities** - Comprehensive XML processing functions
-- **Validation** - Robust input validation with Pydantic
+- **Automatic Segmentation** Automatically recognizes text structures
+- **Multiple Backends** Supports YOLO and Kraken (for baseline and linemask detection)
+- **Baseline Processing** Intelligent baseline extraction
+- **XML Utilities** Comprehensive XML processing functions
+- **Validation** Robust input validation with Pydantic
 
 ## flow-inference
 
-[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--trocr--inference-181717?logo=github)](https://github.com/The-Flow-Project/package-trocr-inference)  
+[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--trocr--inference-181717?logo=github)](https://github.com/The-Flow-Project/package-trocr-inference){ target="_blank" rel="noopener" }
+[![Docs](https://img.shields.io/badge/docs-API%20Reference-blue?logo=readthedocs)](https://the-flow-project.github.io/package-trocr-inference/){ target="_blank" rel="noopener" }  
 
 Package for performing inference and evaluation for OCR/HTR tasks with HuggingFace integration.
 
-## flow-training (WIP)
+## TrOCR training scripts (WIP)
 
-[![GitHub](https://img.shields.io/badge/GitHub-The--Flow--Project%2Fpackage--training-181717?logo=github)](https://github.com/The-Flow-Project/package-training)  
-
-Python package for TrOCR training. If you have a line based preprocessed dataset, you can train a handwritten text recognition TrOCR model with this package.  
+Scripts for training a handwritten text recognition TrOCR model on a line based
+preprocessed dataset. Moving from the `flow-training` package into its own GitHub
+repository; link coming soon.  
