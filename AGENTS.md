@@ -4,20 +4,23 @@ This is the documentation repository of the flow environment.
   
 This environement has the following features:  
   
-- docker compose files for multiple purposes in n8n-workflows/docker-templates
+- docker compose files in n8n-workflows/deploy
 - frontend forms for different services the n8n instance manages: preprocessing, inference, and evaluation.
 - n8n workflows for the different tasks to import in the n8n UI.
 - FastAPI microservices to run the different taks, like preprocessing and inference, called by the n8n workflows.
 
 It is the intention you can use those instances just by creating proper .env files and run the specific docker compose files.
 
-For the basic n8n-workflows your choice depends on your usecase:
+The n8n-workflows repository has one stack, not two variants:
 
-- n8n-workflows/docker-templates/docker-compose.n8n.yml for generic use and an existing traefik proxy (n8n-workflows/docker-templates/docker-compose.traefik-proxy.yml to run that proxy server).
-- n8n-workflows/docker-templates/docker-compose.n8n.local.yml for the local use without domains. The API calls in n8n run via docker network - so the services need to be in the same docker network or reachable via LAN. The workflows are atm designed to work with docker networks.
-- n8n-workflows/docker-templates/docker-compose.mailserver.local.yml and n8n-workflows/docker-templates/docker-compose.local.yml as override, if you don't want to use the mailjet solution but a simple mailserver container with DKIM keys. For this you need to change the workflows and activate the E-Mail nodes.
+- n8n-workflows/deploy/docker-compose.yml starts everything with nothing published to the internet.
+- n8n-workflows/deploy/docker-compose.public.yml is an overlay that publishes the forms under a domain. It adds traefik routing to the forms container and to nothing else.
+- n8n-workflows/deploy/docker-compose.traefik.yml runs the proxy itself, once per host.
+- n8n-workflows/deploy/docker-compose.mailserver.yml as an override, if you don't want to use the mailjet solution but a simple mailserver container with DKIM keys. For this you need to change the workflows and activate the E-Mail nodes.
 
-For the frontend properly working, you need to set the webhook base ip/url in n8n-workflows/frontend-common/config.js. This webhook is the one provided by the n8n-workflows to trigger those workflows.
+The forms need no webhook address configured. The nginx that serves them also proxies /webhook/ to n8n, so a form posts to its own origin. That is why n8n needs no domain name, no DNS record and no proxy route, and why its editor UI is not reachable from outside.
+
+The preprocessing and inference services can run on other machines. The workflows read their addresses from the n8n environment as $env.PREPROCESS_API_BASE and $env.INFERENCE_API_BASE instead of hardcoding a host.
 
 The services, which are called by the n8n-workflows have to be started via other docker compose files.
 You can find the code of those in this GitHub repositories:
@@ -32,12 +35,13 @@ You can find the code of those in this GitHub repositories:
 - Workflows are imported by the admin via n8n interface
 - In the simple variant, the admin needs a mailjet account, access to the domains DNS records, and add those credentials in n8n.
 - In the mailserver variant, the admin needs access to the domains DNS records. And the outgoing port 25 needs to be open.
-- The local variant is used in those cases:
+- Running without the public overlay is used in those cases:
   - If the ports 80 and 443 are not open in your network
   - You don't have a domain to run it with (then use a SMTP account to send emails - those nodes do not exist in the workflows)
   - For development / testing
-- If you choose to run the URL based variant, you can set the domains/subdomains. Those should all have a DNS record (be aware of the update time of 48h)
-- The admin can always change the URL/IPs of the endpoints for the API calls in the n8n workflows.
+- Publishing needs exactly one DNS record, for the host the forms are served under (be aware of the update time of 48h). n8n and the storage get no record of their own.
+- The admin changes the URL/IPs of the endpoints for the API calls in the .env file, not in the workflows.
+- Which forms an instance offers is set with ENABLED_FORMS in the .env file.
 
 ## Documentation
 

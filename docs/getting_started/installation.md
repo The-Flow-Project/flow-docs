@@ -27,37 +27,43 @@ Compose files, independent of the n8n environment described here.
 ```mermaid
 flowchart LR
     User(["User"])
-    Forms["Web forms<br/>(this repository)"]
-    n8n["n8n<br/>(this repository)"]
-    Garage[("Garage<br/>temporary ZIP storage")]
     HF[("HuggingFace Hub<br/>datasets &amp; models")]
     Email(["Notification email"])
 
-    subgraph Preprocess["preprocess-network"]
-        Prep["service-trocr-preprocess<br/>FastAPI + Celery + Redis"]
+    subgraph Stack["n8n host (this repository)"]
+        Proxy["Traefik<br/>TLS, ports 80 and 443"]
+        Forms["Forms (nginx)<br/>pages + /webhook/ proxy"]
+        n8n["n8n"]
+        Garage[("Garage<br/>temporary ZIP storage")]
     end
 
-    subgraph Inference["inference-network"]
-        Inf["service-trocr-inference<br/>FastAPI + Celery + Redis"]
-    end
+    Prep["service-trocr-preprocess<br/>own host, own repository"]
+    Inf["service-trocr-inference<br/>own host, own repository"]
 
-    User -->|fills in| Forms
-    Forms -->|webhook request| n8n
+    User -->|fills in a form| Proxy
+    Proxy --> Forms
+    Forms -->|/webhook/| n8n
     n8n <-->|uploaded ZIPs| Garage
     n8n -->|starts &amp; polls jobs| Prep
     n8n -->|starts &amp; polls jobs| Inf
+    Prep -->|downloads the ZIP| Garage
     Prep <-->|reads/writes datasets| HF
     Inf <-->|reads/writes datasets &amp; models| HF
     n8n -->|success/failure| Email
     Email -->|notifies| User
 ```
 
-Everything in the top box (forms, n8n, Garage) comes from this repository and this
-installation guide. The two service boxes are separate repositories with their own
-compose files; see
+Everything in the box comes from this repository and this installation guide. Note the
+shape of it: the user only ever talks to the forms container. The forms are static pages
+served by an nginx that also passes `/webhook/` requests through to n8n, so pages and
+webhooks share a single address. n8n itself, Garage, and the two services are never
+reachable from outside.
+
+The two services are separate repositories with their own compose files, and they can run
+on the same host or on other machines; see
 [Running the preprocessing and inference services](#running-the-preprocessing-and-inference-services)
-below. Traefik and the mail relay aren't shown here since they're optional add-ons
-covered in their own sections.
+below. The mail relay is not shown here since it is an optional add-on covered in its own
+section.
 
 ## What you need to install it
 
@@ -88,26 +94,37 @@ setup.
 None of the preprocessing or inference work happens on your local machine by hand; it is
 always triggered through n8n and carried out by the separate services mentioned above.
 
-## Choosing a variant
+## How much of it is public
 
-The same stack can be started in a few different ways, depending on your network and
-how public the environment should be.
+There is one stack, not two variants. `docker-compose.yml` starts the whole environment
+with nothing published to the internet, and a small overlay file publishes the forms
+under a domain name on top of that. You pick how far you go:
 
-| Variant | When to use it | Compose file |
+| How you run it | What it gives you | Command |
 | --- | --- | --- |
-| Local / no domain | Development, testing, or a network without a domain or open ports 80/443 | `docker-compose.n8n.local.yml` |
-| Domain-based | A proper deployment reachable under `n8n.yourdomain.com` and similar subdomains, behind [Traefik](https://doc.traefik.io/traefik/) | `docker-compose.n8n.yml` + `docker-compose.traefik-proxy.yml` |
+| Internal only | Everything reachable by the host's LAN address. No domain, no TLS, no waiting on DNS | `docker compose up -d` |
+| Published | The forms reachable at `https://flow.example.com`, behind [Traefik](https://doc.traefik.io/traefik/) with a Let's Encrypt certificate | add `-f docker-compose.public.yml`, plus `docker-compose.traefik.yml` for the proxy |
 
-Both variants run the same building blocks: n8n itself, a small S3-compatible storage
+The overlay adds routing for the forms container and for nothing else, so publishing the
+environment never exposes n8n, Garage, or the services.
+
+The building blocks are the same either way: n8n itself, a small S3 compatible storage
 service called [Garage](https://garagehq.deuxfleurs.fr/documentation/quick-start/), and
-the web forms. Garage is used only to temporarily hold
-uploaded ZIP files until the preprocessing service can fetch them; a weekly cleanup job
-removes anything older than seven days. It runs automatically as part of the compose
-setup and needs no external account, just the secrets you generate for `.env`.
+the web forms. Garage is used only to temporarily hold uploaded ZIP files until the
+preprocessing service can fetch them; a weekly cleanup job removes anything older than
+seven days. It runs automatically as part of the compose setup and needs no external
+account, just the secrets you generate for `.env`.
 
-!!! tip "Start local first"
-    If you are trying the environment out for the first time, the local variant is the
-    easiest path: no domain, no TLS certificates, and no waiting on DNS changes.
+!!! tip "Start internal first"
+    If you are trying the environment out for the first time, run it without the overlay:
+    no domain, no TLS certificates, and no waiting on DNS changes. Adding the domain later
+    is a matter of two `.env` values and one extra `-f` flag, with nothing to rebuild.
+
+!!! note "Only the forms need a domain"
+    n8n gets no domain name of its own and no DNS record. Because the forms nginx passes
+    `/webhook/` through to n8n, both live at the same address, which means one record
+    instead of several, no CORS setup, and no public route to the n8n editor. If you
+    cannot get DNS records created easily, this is the part that makes it workable.
 
 ## Notification emails
 
@@ -126,8 +143,8 @@ emails. You have three options for sending them:
   `@gmail.com` address instead of your own domain. Requires swapping in a Gmail node in
   place of the default Mailjet one.
 - **Self-hosted mail relay**: a small Postfix + OpenDKIM container
-  (`docker-compose.mailserver.local.yml` or `docker-compose.mailserver.yml`) that you run
-  as an add-on on top of either base variant. It needs DNS access to publish a DKIM TXT
+  (`docker-compose.mailserver.yml`) that you run as an add-on on top of the stack,
+  published or not. It needs DNS access to publish a DKIM TXT
   record, and it delivers mail directly over outbound port 25, which most managed or
   secured networks block, so it only works reliably on an open network. To use it,
   disable the Mailjet email nodes in each workflow and enable the plain SMTP email nodes
@@ -139,26 +156,45 @@ Quick planning pointers, not a full network setup guide.
 
 ### Firewall
 
-- Domain variant: open inbound 80/443 for Traefik's [Let's Encrypt](https://letsencrypt.org/how-it-works/)
+- Published: open inbound `80` and `443`, and only those. Port 80 is needed both for the
+  redirect to HTTPS and for Traefik's [Let's Encrypt](https://letsencrypt.org/how-it-works/)
   challenge, unless you switch to the [DNS-01 challenge](https://doc.traefik.io/traefik/https/acme/#dnschallenge),
-  in which case no inbound port is needed for TLS at all.
-- Local variant: only `5678` (n8n) and `80` (the forms) need to be reachable on your LAN;
-  nothing needs to be open to the internet.
+  which needs API access to your DNS zone but no inbound port.
+- Internal only: `80` (the forms) and `5678` (the n8n editor) on your LAN, nothing open to
+  the internet.
+- The n8n editor on `5678` stays internal in both cases. It holds every credential and the
+  execution history, so it should never be forwarded at the firewall. Bind it to one
+  interface with `N8N_BIND_ADDR`, or drop the published port entirely and reach it through
+  an SSH tunnel: `ssh -L 5678:localhost:5678 user@host`.
+- Port `3902` (uploaded file downloads) needs to be reachable only from the machines
+  running the preprocessing and inference services, and never from the internet. The
+  environment already restricts it to those addresses; see
+  [Running the preprocessing and inference services](#running-the-preprocessing-and-inference-services).
 - Self-hosted mail relay: outbound port `25` must be open. Many managed or cloud networks
   block it, so check with your provider before picking this option.
-- Everything else (Garage, Redis, the preprocessing/inference services) never needs a
-  firewall rule of its own; they only talk to each other over the internal Docker
-  networks and are never published to a host port.
+
+!!! tip "Preparing before the ports are opened"
+    On a managed network you may have to hand the setup over for review before anyone
+    opens 80 and 443. Start Traefik anyway: while the ports are closed it serves its own
+    self signed certificate, so the site already works inside the network, and browsers
+    only warn about the certificate. Keep `ACME_CASERVER` pointed at the Let's Encrypt
+    **staging** directory during that phase, because repeated failed validations against
+    the production one exhaust its rate limit. Switch it to production, delete the stored
+    certificate, and restart Traefik the day the ports open. The comments at the top of
+    `docker-compose.traefik.yml` give the exact sequence.
 
 ### DNS
 
-- The domain variant needs one record per subdomain in use (n8n, webhook, the form(s),
-  optionally mail); a wildcard `*.yourdomain.com` record is the easiest way to cover all
-  of them at once.
+- One record is enough: the hostname the forms are published under. n8n, the webhooks and
+  the storage have no hostnames of their own, so there is nothing else to request, and no
+  wildcard is needed.
 - Budget up to 48 hours for a DNS change to propagate before testing: a fresh or changed
-  record can look "broken" for reasons unrelated to your setup.
+  record can look "broken" for reasons unrelated to your setup. Until the record exists
+  you can test from inside the network with an entry in your hosts file, since the proxy
+  routes on the Host header.
 - Mailjet's domain verification adds its own DNS records (Mailjet tells you which); the
-  self-hosted mail relay instead needs a single DKIM TXT record.
+  self-hosted mail relay instead needs a single DKIM TXT record. The mail domain is
+  independent of the one the forms use.
 - Consider SPF/DMARC records for your sending domain too. It's not something this
   environment configures for you, but it lowers the chance of notification emails
   landing in spam.
@@ -168,50 +204,55 @@ Quick planning pointers, not a full network setup guide.
 - A Linux host is the safest choice, since GPU support for the inference service depends
   on the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html),
   which targets Linux.
-- Give the host a static or reserved IP: both the domain variant's DNS records and the
-  local variant's `SERVER_IP` assume the address doesn't change.
+- Give the host a static or reserved IP: the DNS record, the `N8N_LAN_HOST` value, and the
+  address the services download uploads from all assume it doesn't change.
 - Run only one Traefik instance per host on the shared `traefik-public` network; a second
   one competing for ports 80/443 will fail to start or quietly steal traffic.
 - The n8n editor holds every stored credential used in this environment (storage, email,
   the services' API keys) plus the execution history, which includes the HuggingFace
-  tokens submitted through the forms (see the warning above). If n8n is reachable under a
-  public domain, consider restricting access to it further (a VPN, an IP allowlist, or a
-  Traefik auth middleware) rather than leaving it open to anyone who finds the subdomain.
+  tokens submitted through the forms (see the warning above). The environment gives it no
+  public route for exactly that reason. Keep it that way: reach it over the LAN or an SSH
+  tunnel, and do not add a proxy route for it.
 
 ## Basic setup steps
 
-1. **Copy the matching `.env` template**: `.env.example` for the domain variant,
-   `.env.local.example` for the local variant, to `.env`, and fill in the values:
-   your domain name or the server's LAN IP, the n8n `ENCRYPTION_KEY`
-   (`openssl rand -hex 32`), and the Garage storage secrets (also generated with
-   `openssl rand`, see the comments in the template file). If you chose the self-hosted
-   mail relay, also fill in its `DOMAIN_NAME`, `SUBDOMAIN_MAIL`, and `DKIM_SELECTOR`
-   values.
-2. **Create the Docker networks** the environment expects:
-    - Domain variant: `traefik-public` (Traefik ingress) and `preprocess-network`.
-    - Local variant: `inference-network` and `preprocess-network`.
+1. **Copy `.env.example` to `.env`** and fill in the values: the host's LAN address
+   (`N8N_LAN_HOST`), the address users reach the forms at (`PUBLIC_BASE_URL`), the n8n
+   `ENCRYPTION_KEY` (`openssl rand -hex 32`), the Garage storage secrets (also generated
+   with `openssl rand`, see the comments in the template), and the addresses of the two
+   services (`PREPROCESS_API_BASE`, `INFERENCE_API_BASE`, and the matching
+   `*_SERVER_IP` values). If you are publishing the environment, also set `PUBLIC_HOST`
+   and `SSL_EMAIL`; if you chose the self-hosted mail relay, its `MAIL_DOMAIN`,
+   `MAIL_HOSTNAME`, and `DKIM_SELECTOR`.
 
-    These two `*-network` networks are how n8n reaches the preprocessing and inference
-    services, which run in their own, separate compose stacks; each of those stacks
-    joins whichever network fits, and n8n then calls it by container name
-    (`http://my-api:<port>`). An API on another machine on the LAN needs no such network,
-    just its IP; an API running directly on the host itself needs
-    `host.docker.internal` added to n8n's `extra_hosts`.
+    There is one template for both ways of running it. Every value that only matters when
+    publishing is grouped under its own heading in the file.
 
-3. **Start the compose file for your variant**, adding the mail relay file on top if you
-   chose that option, for example:
+2. **Create the Docker network**, but only if you are publishing the environment:
+   `docker network create traefik-public`. It is the network Traefik and the forms
+   container share. Running internally only, there is nothing to create: compose makes
+   the stack's own private network for you.
+
+3. **Start the stack**, adding the overlay files you need:
 
     ```bash
-    docker compose -f docker-compose.n8n.local.yml -f docker-compose.mailserver.local.yml up -d
+    docker compose up -d                                    # internal only
+    docker compose -f docker-compose.yml \
+                   -f docker-compose.public.yml up -d       # published
     ```
 
-4. **Start the preprocessing and inference services** from their own repositories, on
-   the matching `*-network`, so the workflows can reach them by container name.
+    Add `-f docker-compose.mailserver.yml` on top of either if you chose the self-hosted
+    mail relay, and start the proxy once per host with
+    `docker compose -f docker-compose.traefik.yml up -d`.
+
+4. **Start the preprocessing and inference services** from their own repositories, and
+   make sure the addresses you put in `PREPROCESS_API_BASE` and `INFERENCE_API_BASE`
+   actually reach them.
 5. **Open the n8n web interface**, add the required
    [credentials](https://docs.n8n.io/credentials/) (S3/Garage and your chosen email
    option; HuggingFace tokens are entered per-request in the forms, not configured
-   here), and import the workflow JSON files from this repository's `workflows-*`
-   folders. Workflows are not started automatically. An administrator imports each one
+   here), and import the workflow JSON files from this repository's `workflows/`
+   folder. Workflows are not started automatically. An administrator imports each one
    through the n8n interface and activates it there.
 
     !!! warning "Importing the workflows is not enough on its own"
@@ -234,57 +275,60 @@ Quick planning pointers, not a full network setup guide.
         [Running the preprocessing and inference services](#running-the-preprocessing-and-inference-services)
         below); never hand those out to end users, only the shared webhook key.
 
-6. **Point the forms at the webhook.** The form pages read their webhook address from a
-   small generated `config.js` file rather than having it hardcoded, so the same form
-   works unchanged across deployments:
-    - Domain variant images already default to `https://webhook.<your-domain>`.
-    - The local variant image writes it at container start from the `WEBHOOK_BASE_URL`
-      value in the compose file (typically `http://<SERVER_IP>:5678`).
+6. **Choose which forms to offer.** `ENABLED_FORMS` in `.env` lists the pipeline stages
+   this instance runs, for example `ENABLED_FORMS=preprocessing` if you only run the
+   preprocessing service. Anything left out loses its card on the landing page and its
+   navigation tab, and its address returns 404. The default lists all four.
+
+    There is nothing to configure for the webhook address itself. The forms post to
+    `/webhook/<name>` on whatever host they were loaded from, and the nginx serving them
+    passes that through to n8n, so the same image works in every deployment.
 
 !!! example "Reproducible commands (steps 1-3)"
-    === "Local / no domain"
+    === "Internal only"
         ```bash
-        cd docker-templates
-
-        # 2. shared networks, so n8n can reach sibling services by container name
-        docker network create inference-network
-        docker network create preprocess-network
-
-        # 1. environment file
-        cp .env.local.example .env
-        # now edit .env: set SERVER_IP, ENCRYPTION_KEY, and the GARAGE_* secrets
-
-        # 3. start the stack
-        docker compose -f docker-compose.n8n.local.yml up -d
-
-        # optional: self-hosted mail relay instead of Mailjet/Gmail
-        docker compose -f docker-compose.n8n.local.yml -f docker-compose.mailserver.local.yml up -d
-        ```
-
-    === "Domain-based"
-        ```bash
-        cd docker-templates
-
-        # 2. shared networks, so n8n can reach sibling services by container name
-        docker network create traefik-public
-        docker network create preprocess-network
+        cd deploy
 
         # 1. environment file
         cp .env.example .env
-        # now edit .env: set DOMAIN_NAME, the subdomains, SSL_EMAIL, ENCRYPTION_KEY,
-        # and the GARAGE_* secrets
+        # now edit .env: set N8N_LAN_HOST, PUBLIC_BASE_URL (the host's own address here),
+        # ENCRYPTION_KEY, the GARAGE_* secrets, and the two service addresses.
+        # Keep FORMS_HTTP_PORT=80 and FORMS_BIND_ADDR=0.0.0.0 so the LAN can reach the forms.
 
-        # 3. start the reverse proxy, then the stack
-        docker compose -f docker-compose.traefik-proxy.yml up -d
-        docker compose -f docker-compose.n8n.yml up -d
+        # 2. nothing to create: compose makes the stack's private network itself
+
+        # 3. start the stack
+        docker compose up -d
 
         # optional: self-hosted mail relay instead of Mailjet/Gmail
-        docker compose -f docker-compose.n8n.yml -f docker-compose.mailserver.yml up -d
+        docker compose -f docker-compose.yml -f docker-compose.mailserver.yml up -d
         ```
 
-    Steps 4-6 (starting the sibling services, importing the workflows, and setting the
-    webhook URL) are done once through the n8n web interface and the sibling services'
-    own compose files, not from this repository.
+    === "Published under a domain"
+        ```bash
+        cd deploy
+
+        # 1. environment file
+        cp .env.example .env
+        # now edit .env: as above, plus PUBLIC_HOST, PUBLIC_BASE_URL (https://...),
+        # SSL_EMAIL, and FORMS_HTTP_PORT=8080 with FORMS_BIND_ADDR=127.0.0.1 so the
+        # forms container leaves ports 80 and 443 to Traefik.
+
+        # 2. the network Traefik and the forms container share
+        docker network create traefik-public
+
+        # 3. start the reverse proxy once per host, then the stack
+        docker compose -f docker-compose.traefik.yml up -d
+        docker compose -f docker-compose.yml -f docker-compose.public.yml up -d
+
+        # optional: self-hosted mail relay instead of Mailjet/Gmail
+        docker compose -f docker-compose.yml -f docker-compose.public.yml \
+                       -f docker-compose.mailserver.yml up -d
+        ```
+
+    Steps 4-6 (starting the sibling services, importing the workflows, and choosing which
+    forms to offer) are done through the n8n web interface, the sibling services' own
+    compose files, and one `.env` value.
 
 ## Running the preprocessing and inference services
 
@@ -306,22 +350,40 @@ workflows can reach it:
 1. Clone the repository and copy its `.env.example` to `.env`. Set `API_KEY` to a secret
    of your own choosing; every request to the service must carry it, including the ones
    n8n sends.
-2. Make sure it joins the network the matching workflow expects: the same network you
-   already created in [Basic setup steps](#basic-setup-steps) above:
-    - Preprocessing service → `preprocess-network`
-    - Inference / evaluation service → `inference-network`
+2. Decide where it runs and tell n8n its address. The workflows do not hardcode it: their
+   HTTP nodes read it from the n8n container's environment, so the service can live on any
+   machine the n8n host can reach.
 
-3. Keep the container name as shipped in that repository's compose file
-   (`service-trocr-preprocess` or `service-trocr-inference`). The imported n8n workflows
-   call the service at exactly that name on port 8000; renaming the container breaks the
-   connection unless you also edit the workflow's HTTP Request nodes.
+    ```bash
+    # in the n8n environment's .env
+    PREPROCESS_API_BASE=http://10.0.0.11:8000
+    INFERENCE_API_BASE=http://10.0.0.12:8000
+    ```
+
+    Moving a service to a different machine later is a change to this value followed by
+    `docker compose up -d`, with no need to re-import any workflow. The services should be
+    reachable from the n8n host and from nowhere else: they need no domain, no proxy route,
+    and no port open to the internet.
+
+3. Let the service download uploaded ZIPs. The preprocessing service fetches the file the
+   user uploaded from Garage over plain HTTP, so add the machine it runs on to
+   `PREPROCESS_SERVER_IP` (and the inference machine to `INFERENCE_SERVER_IP`). Those two
+   values are an allow list: only the addresses listed there may download from Garage, and
+   everything else gets a 403. A single IP or a CIDR such as `10.0.0.0/24` both work.
+
+    Leave the pair empty for a service you do not run. Nothing else needs changing.
 4. Start it. Both repositories support the same two modes:
-    - **Local / testing**: a bare `docker compose up -d --build` also publishes the API
-      on `:8000`, handy for checking the connection by hand
-      (`curl http://localhost:8000/health`, no API key needed for this endpoint).
+    - **Published on the network**: a bare `docker compose up -d --build` publishes the API
+      on `:8000`, which is what `PREPROCESS_API_BASE` and `INFERENCE_API_BASE` point at, and
+      what lets you check the connection by hand
+      (`curl http://<service-host>:8000/health`, no API key needed for this endpoint).
+      Restrict that port to the n8n host at your firewall.
     - **Behind Traefik**: `docker compose -f docker-compose.yml -f docker-compose.traefik.yml up -d --build`
       publishes no host port; the service is reachable only through Traefik and the
-      `APP_DOMAIN` set in its `.env`.
+      `APP_DOMAIN` set in its `.env`. Only worth it if that service already sits behind a
+      proxy for other reasons, since n8n reaches it perfectly well over the internal
+      network. If you do use it, point the `*_API_BASE` value at the `APP_DOMAIN` instead
+      of the IP, and keep that hostname off the public internet.
 
     Either way, Redis and the Celery worker start together with the API, with no separate
     step needed.

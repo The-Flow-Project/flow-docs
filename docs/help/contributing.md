@@ -21,15 +21,18 @@ work as expected.
 
 1. **Fork the repository** and create a branch for your change.
 2. **Make the change**, keeping a few things in mind depending on what you're touching:
-    - **n8n workflows** (`workflows-*/*.json`): export the workflow cleanly from n8n
+    - **n8n workflows** (`workflows/*.json`): export the workflow cleanly from n8n
       after testing it end to end, and keep the sticky note at the top of the workflow up
-      to date if you changed what it does or added a new required credential.
-    - **Docker Compose files and `.env` templates**: if you add or rename an environment
-      variable, update the matching `.env.example` / `.env.local.example` file and its
-      comment, so the templates stay a trustworthy reference.
-    - **Forms** (`frontend-*`, `workflows-*/form`): test the form in a browser against a
-      running n8n instance before submitting, and keep the style consistent with the
-      other forms (`style.css`).
+      to date if you changed what it does or added a new required credential. Endpoint
+      addresses belong in environment variables read as `$env.…`, never written into a
+      node, so that a workflow stays usable in any deployment.
+    - **Docker Compose files and the `.env` template** (`deploy/`): if you add or rename an
+      environment variable, update `.env.example` and its comment, so the template stays a
+      trustworthy reference.
+    - **Forms** (`forms/public/`): test the form in a browser against a running n8n
+      instance before submitting, and keep the style consistent with the other forms
+      (`style.css`). A new form needs a directory under `forms/public/`, an entry in
+      `ALL_FORMS` in `forms/render-config.sh`, and a `data-form` attribute on its links.
 
 3. **Test the change against a real environment** where possible. Most changes here (a
    workflow, a compose file, a form) can't be verified by an automated test suite, so a

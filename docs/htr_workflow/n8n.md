@@ -23,7 +23,9 @@ system and the services that do the actual work:
 1. A user fills in one of the web forms (preprocessing, inference, writing raw XML, or
    evaluation).
 2. The form sends the data to an n8n **webhook**: a URL that starts a workflow when it
-   receives a request.
+   receives a request. The form posts to `/webhook/<name>` on the very address it was
+   loaded from, and the web server that serves the forms passes the request on to n8n
+   internally, so n8n needs no address of its own.
 3. The workflow checks the request, stores any uploaded files, and calls the matching
    backend service to start a job.
 4. n8n waits and periodically checks on the job's progress.
@@ -74,14 +76,16 @@ and a "check status" endpoint, and n8n handles the waiting, retrying, and notify
 
 ## The workflows in this repository
 
-| Workflow | Folder | Starts from | What it does |
+All of them live in the `workflows/` folder of the n8n-workflows repository:
+
+| Workflow | File | Starts from | What it does |
 | --- | --- | --- | --- |
-| ZIP preprocessing | `workflows-preprocessing` | Preprocessing form (ZIP URL or upload) | Prepares a dataset from a ZIP of Page XML and images |
-| HuggingFace preprocessing | `workflows-preprocessing` | Preprocessing form (HuggingFace source) | Prepares a dataset from an existing HuggingFace dataset |
-| Inference | `workflows-inference` | Inference form | Runs a trained model over a dataset |
-| Write raw XML | `workflows-write-rawxml` | Write raw XML form | Merges inference results back into the original Page XML |
-| Evaluation | `workflows-evaluation` | Evaluation form | Compares model output against ground truth |
-| Garage upload cleanup | `workflows-preprocessing` | Weekly schedule | Removes temporary ZIP uploads older than seven days |
+| ZIP preprocessing | `preprocessing.json` | Preprocessing form (ZIP URL or upload) | Prepares a dataset from a ZIP of Page XML and images |
+| HuggingFace preprocessing | `preprocessing-hf.json` | Preprocessing form (HuggingFace source) | Prepares a dataset from an existing HuggingFace dataset |
+| Inference | `inference.json` | Inference form | Runs a trained model over a dataset |
+| Write raw XML | `write-rawxml.json` | Write raw XML form | Merges inference results back into the original Page XML |
+| Evaluation | `evaluation.json` | Evaluation form | Compares model output against ground truth |
+| Garage upload cleanup | `cleanup.json` | Weekly schedule | Removes temporary ZIP uploads older than seven days |
 
 !!! note "Importing workflows is a required, manual step"
     n8n does not pick up the workflow JSON files from this repository by itself. An
