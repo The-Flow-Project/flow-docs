@@ -25,7 +25,11 @@ work as expected.
       after testing it end to end, and keep the sticky note at the top of the workflow up
       to date if you changed what it does or added a new required credential. Endpoint
       addresses belong in environment variables read as `$env.…`, never written into a
-      node, so that a workflow stays usable in any deployment.
+      node, so that a workflow stays usable in any deployment. Run the n8n version that
+      `deploy/docker-compose.yml` pins while you work: exporting from a newer one
+      restamps the JSON with that version's schema defaults, which buries your actual
+      change in unrelated noise. If a version bump is the change you are making, commit
+      the re-exported workflows separately from anything else.
     - **Docker Compose files and the `.env` template** (`deploy/`): if you add or rename an
       environment variable, update `.env.example` and its comment, so the template stays a
       trustworthy reference.

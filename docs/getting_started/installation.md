@@ -25,10 +25,8 @@ Both are published as their own repositories and are started with their own Dock
 Compose files, independent of the n8n environment described here.
 
 ```mermaid
-flowchart LR
+flowchart TD
     User(["User"])
-    HF[("HuggingFace Hub<br/>datasets &amp; models")]
-    Email(["Notification email"])
 
     subgraph Stack["n8n host (this repository)"]
         Proxy["Traefik<br/>TLS, ports 80 and 443"]
@@ -39,25 +37,31 @@ flowchart LR
 
     Prep["service-trocr-preprocess<br/>own host, own repository"]
     Inf["service-trocr-inference<br/>own host, own repository"]
+    HF[("HuggingFace Hub<br/>datasets &amp; models")]
 
-    User -->|fills in a form| Proxy
-    Proxy --> Forms
-    Forms -->|/webhook/| n8n
-    n8n <-->|uploaded ZIPs| Garage
+    User -->|fills in a form| Proxy --> Forms -->|/webhook/| n8n
+    n8n -->|uploaded ZIPs| Garage
     n8n -->|starts &amp; polls jobs| Prep
     n8n -->|starts &amp; polls jobs| Inf
-    Prep -->|downloads the ZIP| Garage
+    Garage -->|downloads the ZIP| Prep
     Prep <-->|reads/writes datasets| HF
     Inf <-->|reads/writes datasets &amp; models| HF
-    n8n -->|success/failure| Email
-    Email -->|notifies| User
+    n8n -.->|success/failure email| User
+
+    Prep ~~~ Inf
+
+    classDef service fill:#5c6bc0,stroke:#3949ab,color:#ffffff,font-weight:bold;
+    class Prep,Inf service;
+    classDef external stroke:#888888,stroke-width:2px,stroke-dasharray: 5 5;
+    class HF external;
 ```
 
-Everything in the box comes from this repository and this installation guide. Note the
-shape of it: the user only ever talks to the forms container. The forms are static pages
-served by an nginx that also passes `/webhook/` requests through to n8n, so pages and
-webhooks share a single address. n8n itself, Garage, and the two services are never
-reachable from outside.
+Everything in the upper box comes from this repository and this installation guide. Note
+the shape of it: the user only ever talks to the forms container. The forms are static
+pages served by an nginx that also passes `/webhook/` requests through to n8n, so pages
+and webhooks share a single address. n8n itself, Garage, and the two services are never
+reachable from outside. The dashed arrow back to the user is the notification email,
+which leaves the host directly and does not travel back through the forms.
 
 The two services are separate repositories with their own compose files, and they can run
 on the same host or on other machines; see
@@ -131,24 +135,46 @@ account, just the secrets you generate for `.env`.
 Every workflow finishes by sending an email to the user, reporting success or failure.
 There is no separate solution for other kinds of outgoing mail (such as n8n's own
 account invites or password resets). This setup only covers the workflow notification
-emails. You have three options for sending them:
+emails.
 
-- **Mailjet**: create a [Mailjet](https://www.mailjet.com/) account and verify your
-  domain there (they give you DNS records to add, so this still needs DNS access), then
-  add the Mailjet credential in n8n. This is the default: every workflow already has an
-  active Mailjet email node.
-- **Gmail**: reuse an existing Gmail account via n8n's
-  [Gmail credential](https://docs.n8n.io/integrations/builtin/credentials/send-email/gmail/)
-  (OAuth login only). No DNS or domain access needed at all, at the cost of sending from a
-  `@gmail.com` address instead of your own domain. Requires swapping in a Gmail node in
-  place of the default Mailjet one.
-- **Self-hosted mail relay**: a small Postfix + OpenDKIM container
-  (`docker-compose.mailserver.yml`) that you run as an add-on on top of the stack,
-  published or not. It needs DNS access to publish a DKIM TXT
-  record, and it delivers mail directly over outbound port 25, which most managed or
-  secured networks block, so it only works reliably on an open network. To use it,
-  disable the Mailjet email nodes in each workflow and enable the plain SMTP email nodes
-  instead (each workflow ships with both, the SMTP ones disabled by default).
+Every workflow ships with its `Email: Success` and `Email: Failure` nodes already
+enabled and already set to plain **SMTP**. That makes SMTP the default: for the first
+two options below, the only thing the workflows need is one SMTP credential linked in
+the n8n UI, and you never have to enable, disable, or replace a node.
+
+You have three options for sending them:
+
+- **An SMTP relay server** (the default): your institution's mail server, or any
+  provider that gives you SMTP credentials. Add the host, port, and login as an
+  [SMTP credential](https://docs.n8n.io/integrations/builtin/credentials/sendemail/) in
+  n8n, select it on the two email nodes in each workflow, and you are done. This is the
+  simplest route and the one to prefer on a managed or secured network, since you relay
+  through a server that is already allowed to send mail rather than delivering it
+  yourself.
+- **A self-hosted mail relay**: a small Postfix + OpenDKIM container
+  (`docker-compose.mailserver.yml`, image `boky/postfix`) that you run as an add-on on
+  top of the stack, published or not. It is send-only, has no inbox, and publishes no
+  port; the workflows reach it over the stack's internal network on port 587, so it is
+  just another SMTP credential as far as they are concerned. It needs DNS access to
+  publish a DKIM TXT record, and it delivers mail directly over outbound port 25, which
+  most managed or secured networks block, so it only works reliably on an open network.
+  Choose it when you want to send from your own domain without an account anywhere else.
+- **An external solution with its own n8n node**, such as
+  [Mailjet](https://www.mailjet.com/) or
+  [Gmail](https://docs.n8n.io/integrations/builtin/credentials/send-email/gmail/):
+  useful if you would rather not manage SMTP credentials at all. Mailjet still needs
+  domain verification via DNS records; Gmail needs no DNS access whatsoever, at the cost
+  of sending from a `@gmail.com` address rather than your own domain. This is the only
+  option that changes the workflows: replace the `Email: Success` and `Email: Failure`
+  nodes in each one with the provider's node, reconnect them to the same two branches,
+  and link that provider's credential.
+
+!!! note "Keep the recipient expression when replacing a node"
+    The `Email: Failure` node reads its recipient from the original webhook request
+    (`$('Webhook: …').item.json.body.notify_email`) rather than from the item reaching
+    it, because that item may be an n8n error object with no form fields. If you swap in
+    a provider node, carry that expression across, or failure mails to users will
+    silently go nowhere.
 
 ## Firewall, DNS, and infrastructure notes
 
@@ -192,9 +218,11 @@ Quick planning pointers, not a full network setup guide.
   record can look "broken" for reasons unrelated to your setup. Until the record exists
   you can test from inside the network with an entry in your hosts file, since the proxy
   routes on the Host header.
-- Mailjet's domain verification adds its own DNS records (Mailjet tells you which); the
-  self-hosted mail relay instead needs a single DKIM TXT record. The mail domain is
-  independent of the one the forms use.
+- Notification mail may or may not need DNS work, depending on which of the three
+  options you picked: relaying through an existing SMTP server needs none at all, the
+  self-hosted relay needs a single DKIM TXT record, and Mailjet's domain verification
+  adds its own records (Mailjet tells you which). The mail domain is independent of the
+  one the forms use.
 - Consider SPF/DMARC records for your sending domain too. It's not something this
   environment configures for you, but it lowers the chance of notification emails
   landing in spam.
@@ -244,6 +272,20 @@ Quick planning pointers, not a full network setup guide.
     Add `-f docker-compose.mailserver.yml` on top of either if you chose the self-hosted
     mail relay, and start the proxy once per host with
     `docker compose -f docker-compose.traefik.yml up -d`.
+
+    !!! tip "Check the pinned n8n version before you deploy"
+        `docker-compose.yml` pins n8n to an exact tag (`n8nio/n8n:2.35.5` at the time of
+        writing) rather than `:latest`. That is deliberate: n8n releases often, and each
+        release can add or rename keys in the workflow JSON schema, so a floating tag
+        changes the version under you on any `docker compose pull` and fills
+        `workflows/` with diffs that are only the new version restamping its defaults.
+
+        Look at the tag before your first deployment, and bump it deliberately every so
+        often rather than leaving it untouched for years. Read the
+        [n8n release notes](https://docs.n8n.io/release-notes/) before a major bump,
+        especially for changes to the webhook, HTTP Request, and SMTP nodes, which are
+        what these workflows are built from. Back up the n8n data volume first: n8n
+        migrates its database on upgrade and does not support downgrading afterwards.
 
 4. **Start the preprocessing and inference services** from their own repositories, and
    make sure the addresses you put in `PREPROCESS_API_BASE` and `INFERENCE_API_BASE`
@@ -300,7 +342,7 @@ Quick planning pointers, not a full network setup guide.
         # 3. start the stack
         docker compose up -d
 
-        # optional: self-hosted mail relay instead of Mailjet/Gmail
+        # optional: self-hosted mail relay instead of an external SMTP server
         docker compose -f docker-compose.yml -f docker-compose.mailserver.yml up -d
         ```
 
@@ -321,7 +363,7 @@ Quick planning pointers, not a full network setup guide.
         docker compose -f docker-compose.traefik.yml up -d
         docker compose -f docker-compose.yml -f docker-compose.public.yml up -d
 
-        # optional: self-hosted mail relay instead of Mailjet/Gmail
+        # optional: self-hosted mail relay instead of an external SMTP server
         docker compose -f docker-compose.yml -f docker-compose.public.yml \
                        -f docker-compose.mailserver.yml up -d
         ```

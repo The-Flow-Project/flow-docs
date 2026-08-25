@@ -16,7 +16,7 @@ The n8n-workflows repository has one stack, not two variants:
 - n8n-workflows/deploy/docker-compose.yml starts everything with nothing published to the internet.
 - n8n-workflows/deploy/docker-compose.public.yml is an overlay that publishes the forms under a domain. It adds traefik routing to the forms container and to nothing else.
 - n8n-workflows/deploy/docker-compose.traefik.yml runs the proxy itself, once per host.
-- n8n-workflows/deploy/docker-compose.mailserver.yml as an override, if you don't want to use the mailjet solution but a simple mailserver container with DKIM keys. For this you need to change the workflows and activate the E-Mail nodes.
+- n8n-workflows/deploy/docker-compose.mailserver.yml as an override, if you want to self-host a simple mailserver container with DKIM keys instead of relaying through an SMTP server you already have. The workflows need no change for this: their email nodes are plain SMTP nodes and ship enabled, so the self-hosted relay is just another SMTP credential.
 
 The forms need no webhook address configured. The nginx that serves them also proxies /webhook/ to n8n, so a form posts to its own origin. That is why n8n needs no domain name, no DNS record and no proxy route, and why its editor UI is not reachable from outside.
 
@@ -33,11 +33,13 @@ You can find the code of those in this GitHub repositories:
 
 - All variables are set in .env
 - Workflows are imported by the admin via n8n interface
-- In the simple variant, the admin needs a mailjet account, access to the domains DNS records, and add those credentials in n8n.
+- Workflow notification mail is sent by plain SMTP nodes that ship enabled. There are three options, in order of preference: an SMTP relay server (the default), the self-hosted mailserver override, or an external solution with its own n8n node such as Mailjet or Gmail.
+- In the default variant, the admin only needs SMTP credentials for a relay server that is already allowed to send mail, and adds them in n8n.
 - In the mailserver variant, the admin needs access to the domains DNS records. And the outgoing port 25 needs to be open.
+- In the external variant (Mailjet, Gmail), the admin replaces both email nodes in every workflow with that provider's node and links its credential. Mailjet needs DNS access for domain verification, Gmail needs none.
 - Running without the public overlay is used in those cases:
   - If the ports 80 and 443 are not open in your network
-  - You don't have a domain to run it with (then use a SMTP account to send emails - those nodes do not exist in the workflows)
+  - You don't have a domain to run it with (then use an SMTP account to send emails - the workflows already ship with enabled SMTP nodes for exactly this)
   - For development / testing
 - Publishing needs exactly one DNS record, for the host the forms are served under (be aware of the update time of 48h). n8n and the storage get no record of their own.
 - The admin changes the URL/IPs of the endpoints for the API calls in the .env file, not in the workflows.

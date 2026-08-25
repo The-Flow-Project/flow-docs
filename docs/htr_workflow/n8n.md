@@ -101,13 +101,23 @@ way.
 ## Notifications
 
 Every workflow ends in two possible branches, success or failure, each ending in an
-email node. By default this email is sent through **Mailjet**, using a workflow-level
-credential, independent of how the Docker environment itself is set up. A plain SMTP
-email node also exists in each workflow but is disabled by default; it is meant for
-deployments that use a self-hosted mail relay instead of Mailjet, in which case the
-Mailjet nodes are disabled and the SMTP ones are enabled instead. See
-[Installation](../getting_started/installation.md) for how the notification email
-options compare.
+email node. Both are plain **SMTP** nodes, and both ship enabled: sending the
+notification over SMTP is the default and needs no change to the workflow itself, only
+an SMTP credential linked in the n8n UI.
+
+The failure branch is not only reached when the backend service reports a failed job.
+The webhook and the `POST:`/`GET:` nodes each route their error output to it as well, so
+a rejected request or an unreachable service also produces an email rather than an
+execution that stops silently. Because an error item carries no form fields of its own,
+the failure node reads the recipient back from the original webhook request instead of
+from the item passing through it.
+
+That SMTP credential can point at an ordinary **SMTP relay server**, which is the
+default, or at the **self-hosted Postfix relay** the stack can start alongside it; the
+workflows cannot tell the two apart. Only if you want an **external solution with its
+own n8n node**, such as **Mailjet** or **Gmail**, do the workflows themselves change:
+you replace both email nodes with that provider's node and link its credential. See
+[Installation](../getting_started/installation.md) for how the three options compare.
 
 ## Data and backups
 
